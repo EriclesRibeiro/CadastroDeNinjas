@@ -20,9 +20,15 @@ public class Ninja {
     private String nome;
 
     /*
-    * Relacionamento OneToMany, pois um ninja pode ter vários jutsus
+    * Relacionamento ManyToMany, pois um ninja pode ter vários jutsus e um jutsu pode estar em vários ninjas
+    * @JoinTable para criar a tabela de relacionamento
     * */
-    @OneToMany(mappedBy = "ninja", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToMany(cascade = { CascadeType.PERSIST, CascadeType.MERGE})
+    @JoinTable(
+            name = "ninja_jutsu",
+            joinColumns = @JoinColumn(name = "fk_ninja"),
+            inverseJoinColumns = @JoinColumn(name = "fk_jutsu")
+    )
     private List<Jutsu> jutsus;
 
     /*
